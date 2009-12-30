@@ -1,0 +1,20 @@
+# common: &shared
+#   adapter: sqlite3
+#   timeout: 5000
+#   encoding: utf8
+# 
+# development:
+#   database: db/freshness_development
+#   <<: *shared
+# 
+# test:
+#   database: db/freshness_test
+#   <<: *shared
+# 
+# production:
+#   database: db/freshness_production
+#   <<: *shared
+# 
+# staging:
+#   database: db/freshness_staging
+#   <<: *shared
