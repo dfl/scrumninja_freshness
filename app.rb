@@ -4,6 +4,8 @@ require 'sinatra'
 
 Dir["./lib/*.rb"].each {|file| require file }
 
+NotificationCache.init_heroku_cache
+
 get '/:project_id' do
   NotificationCache.session_id = request.env['rack.session'][:session_id]
   if NotificationCache.refresh_my_view?( params[:project_id] )
