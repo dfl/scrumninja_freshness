@@ -1,6 +1,7 @@
 require 'memcache'
 require 'net/http'
 require 'uri'
+require 'activesupport'
 
 class NotificationCache
   DOMAIN = ENV["RACK_ENV"] == "production" ? 'scrumninja.com' : 'snstaging.heroku.com'
@@ -26,6 +27,7 @@ class NotificationCache
   MAX_RETRIES = 5
   
   def self.refresh_my_view?(project_id) 
+    hsh = nil
     begin
       hsh = $CACHE.get("notification_cache/#{project_id}")
     rescue => e
@@ -37,7 +39,7 @@ class NotificationCache
       retry
     end
     hsh ||= { :updates => [], :last_check => {} }
-    if hsh[:last_check].empty? || hsh[:last_check][self.session_id].empty?
+    if hsh[:last_check].blank? || hsh[:last_check][self.session_id].blank?
       return true
     else
       hsh[:updates].each do |a|
