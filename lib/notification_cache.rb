@@ -26,18 +26,18 @@ class NotificationCache
   MAX_RETRIES = 5
   
   def self.refresh_my_view?(project_id) 
-    # begin
+    begin
       hsh = $CACHE.get("notification_cache/#{project_id}")
-    # rescue => e
-    #   $logger.info e.to_s
-    #   init_heroku_cache
-    #   @@retry_counter += 1
-    #   raise "could not connect to server!" if @@retry_counter > MAX_RETRIES
-    #   $logger.info "retrying."
-    #   retry
-    # end
+    rescue => e
+      $logger.info e.to_s
+      init_heroku_cache
+      @@retry_counter += 1
+      raise "could not connect to server!" if @@retry_counter > MAX_RETRIES
+      $logger.info "retrying."
+      retry
+    end
     hsh ||= { :updates => [], :last_check => {} }
-    if hsh[:last_check].blank? || hsh[:last_check][self.session_id].blank?
+    if hsh[:last_check].empty? || hsh[:last_check][self.session_id].empty?
       return true
     else
       hsh[:updates].each do |a|
