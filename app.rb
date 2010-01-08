@@ -13,15 +13,15 @@ use Rack::Session::Cookie, :key => 'rack.session'
                            # :expire_after => 2592000, # In seconds
                            # :secret => 'change_me'
 
-# configure do
-#   LOGGER = Logger.new("sinatra.log") 
-# end
-#  
-# helpers do
-#   def logger
-#     LOGGER
-#   end
-# end
+configure do
+  LOGGER = Logger.new("sinatra.log") 
+end
+ 
+helpers do
+  def logger
+    LOGGER
+  end
+end
                            
 get '/notify/:project_id' do
   NotificationCache.session_id = request.env['rack.session'][:session_id]
