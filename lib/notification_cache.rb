@@ -13,7 +13,8 @@ class NotificationCache
   # cattr_accessor :session_id
 
   def self.init_heroku_cache
-    res = Net::HTTP.start("scrumninja.com") {|http| http.get('/notify/memcache') }
+    domain = ENV["RACK_ENV"] == "production" ? 'scrumninja.com' : 'snstaging.heroku.com'
+    res = Net::HTTP.start( domain ) {|http| http.get('/notify/memcache') }
     servers,namespace = res.body.split("@")
     servers = servers.split(",")
     $CACHE = MemCache.new(servers, :namespace => namespace)
