@@ -3,8 +3,14 @@ require 'net/http'
 require 'uri'
 
 class NotificationCache
-  CACHE_TIMEOUT = 5.minutes.to_i
-  cattr_accessor :session_id
+  CACHE_TIMEOUT = 5 * 60 # 5 minutes
+  def self.session_id= val
+    @@session_id = val
+  end
+  def self.session_id
+    @@session_id
+  end
+  # cattr_accessor :session_id
 
   def self.init_heroku_cache
     res = Net::HTTP.start("scrumninja.com") {|http| http.get('/notify/memcache') }
@@ -43,6 +49,7 @@ class NotificationCache
     begin
       hsh = $CACHE.get( project_notifier_key(project_id) )
     rescue => e
+      # logger.info e.to_s
       init_heroku_cache
       retry
     end

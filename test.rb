@@ -1,3 +1,5 @@
+require 'rubygems'
+
 require 'app'
 require 'spec'
 require 'rack/test'
@@ -14,7 +16,7 @@ describe 'the app' do
   it "says yessir" do
     get '/'
     last_response.should be_ok
-    last_response.body.should =~ /yessir/
+    last_response.body.should = "weloveyou"
   end
 
 end
