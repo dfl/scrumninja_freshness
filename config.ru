@@ -1,7 +1,4 @@
 require 'app'
 
-log = File.new("log/#{ENV['RACK_ENV']}.log", "a+")
-$stdout.reopen(log)
-$stderr.reopen(log)
-
+$logger.info "Sinatra app starting..."
 run Sinatra::Application

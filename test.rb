@@ -1,5 +1,3 @@
-require 'rubygems'
-
 require 'app'
 require 'spec'
 require 'rack/test'
