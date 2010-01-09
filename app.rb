@@ -17,14 +17,22 @@ use Rack::Session::Cookie, :key => 'rack.session'
                            # :expire_after => 2592000, # In seconds
                            # :secret => 'change_me'
 
- 
+
+helpers do
+  def output val, status=200, type="text/html"
+    [ status, {"Content-Type" => type }, [ val ] ]
+  end  
+  
+  def jsonp val, key=:callback
+    params[key]+"(#{val})"
+  end
+end
+   
 get '/notify/:project_id' do
   NotificationCache.session_id = request.env['rack.session'][:session_id]
-  if NotificationCache.refresh_my_view?( params[:project_id] )
-    [200, {"Content-Type" => "text/html"}, ["true"]]
-  else
-    [200, {"Content-Type" => "text/html"}, ["false"]]
-  end
+  return output("callback required", 500) unless params[:callback] #
+  result = NotificationCache.refresh_my_view?( params[:project_id] )  #  rand(2) == 0 ? true : false
+  output jsonp( result )
 end
 
 get '/' do
