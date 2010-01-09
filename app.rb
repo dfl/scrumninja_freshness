@@ -14,7 +14,7 @@ Dir["./lib/*.rb"].each {|file| require file }
 NotificationCache.init_heroku_cache
 
 
-use Rack::Session::Cookie, :key => 'rack.session',
+use Rack::Session::Cookie, :key => '_scrum_ninja_session',
                            :domain => DOMAIN
                            # :path => '/',
                            # :expire_after => 2592000, # In seconds
