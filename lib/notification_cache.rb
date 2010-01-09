@@ -1,10 +1,9 @@
 require 'memcache'
 require 'net/http'
 require 'uri'
-require 'activesupport'
+require 'active_support'
 
 class NotificationCache
-  DOMAIN = ENV["RACK_ENV"] == "production" ? 'scrumninja.com' : 'snstaging.heroku.com'
   RAILS_ACTION = 'memcache'
   
   def self.session_id= val
@@ -21,6 +20,7 @@ class NotificationCache
     servers,namespace = res.body.split("@")
     servers = servers.split(",")
     $CACHE = MemCache.new(servers, :namespace => namespace)
+    $logger.info( "servers: #{servers.inspect}, namespace: #{namespace}" )
   end
 
   @@retry_counter = 0
@@ -39,7 +39,9 @@ class NotificationCache
       retry
     end
     hsh ||= { :updates => [], :last_check => {} }
+    $logger.info( "fetched from cache for Project #{project_id}: #{hsh.inspect}")    
     if hsh[:last_check].blank? || hsh[:last_check][self.session_id].blank?
+      $logger.info "session ID mismatch?"
       return true
     else
       hsh[:updates].each do |a|

@@ -4,6 +4,8 @@ require 'sinatra'
 require 'logger'
 
 RACK_ENV = ENV['RACK_ENV'] || 'staging'
+DOMAIN = ENV["RACK_ENV"] == "production" ? 'scrumninja.com' : 'snstaging.heroku.com'
+
 $logger = Logger.new("log/#{RACK_ENV}.log")
 
 Dir["./lib/*.rb"].each {|file| require file }
@@ -11,8 +13,9 @@ Dir["./lib/*.rb"].each {|file| require file }
 
 NotificationCache.init_heroku_cache
 
-use Rack::Session::Cookie, :key => 'rack.session'
-                           # :domain => 'foo.com',
+
+use Rack::Session::Cookie, :key => 'rack.session',
+                           :domain => DOMAIN
                            # :path => '/',
                            # :expire_after => 2592000, # In seconds
                            # :secret => 'change_me'
@@ -30,7 +33,7 @@ end
    
 get '/notify/:project_id' do
   NotificationCache.session_id = request.env['rack.session'][:session_id]
-  return output("callback required", 500) unless params[:callback] #
+  return output("callback required", 500) unless params[:callback]
   result = NotificationCache.refresh_my_view?( params[:project_id] )  #  rand(2) == 0 ? true : false
   output jsonp( result )
 end
