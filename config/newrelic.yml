@@ -1,0 +1,73 @@
+# [aurora:~/work/scrumninja_freshness] dfl% heroku config --long --app snstaging-freshness
+# NEW_RELIC_APPNAME     => snstaging-freshness
+# NEW_RELIC_ID          => 11722
+# NEW_RELIC_LICENSE_KEY => e98b7d2c43cbfd9a91cd345acba3f7363baaa0cb
+# RACK_ENV              => staging
+# [aurora:~/work/scrumninja_freshness] dfl% heroku config --long --app scrumninja-freshness
+# NEW_RELIC_APPNAME     => scrumninja-freshness
+# NEW_RELIC_ID          => 11723
+# NEW_RELIC_LICENSE_KEY => d18ddb561bd5daf01dc31ae2e939178e9b36f646
+# RACK_ENV              => production
+--- 
+common: 
+  error_collector: &id001 
+    capture_source: true
+    enabled: true
+  apdex_t: 0.5
+  ssl: false
+  monitor_mode: true
+  license_key: 
+  developer_mode: false
+  app_name: ScrumNinja Freshness
+  transaction_tracer: &id002 
+    record_sql: obfuscated
+    enabled: true
+    stack_trace_threshold: 0.5
+    transaction_threshold: apdex_f
+  capture_params: false
+  log_level: info
+# development: 
+#   apdex_t: 0.5
+#   error_collector: *id001
+#   license_key: 
+#   monitor_mode: false
+#   ssl: false
+#   app_name: My Application
+#   developer_mode: true
+#   transaction_tracer: *id002
+#   log_level: info
+#   capture_params: false
+production: 
+  apdex_t: 0.5
+  error_collector: *id001
+  license_key: 
+  monitor_mode: true
+  ssl: false
+  app_name: ScrumNinja Freshness
+  license_key: d18ddb561bd5daf01dc31ae2e939178e9b36f646
+  developer_mode: false
+  transaction_tracer: *id002
+  log_level: info
+  capture_params: false
+# test: 
+#   apdex_t: 0.5
+#   error_collector: *id001
+#   license_key: <%= license_key %>
+#   monitor_mode: false
+#   ssl: false
+#   app_name: My Application
+#   developer_mode: false
+#   transaction_tracer: *id002
+#   log_level: info
+#   capture_params: false
+staging: 
+  apdex_t: 0.5
+  error_collector: *id001
+  license_key: e98b7d2c43cbfd9a91cd345acba3f7363baaa0cb
+  monitor_mode: true
+  ssl: false
+  app_name: ScrumNinja Freshness (staging)
+  developer_mode: false
+  transaction_tracer: *id002
+  log_level: info
+  capture_params: false

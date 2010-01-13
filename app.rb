@@ -1,18 +1,16 @@
-# $:.unshift *Dir[File.dirname(__FILE__) + "/vendor/*/lib"]
+$:.unshift *Dir[File.dirname(__FILE__) + "/vendor/*/lib"]
+
 require 'rubygems'
 require 'sinatra'
-require 'logger'
-
-#require 'new_relic/agent/instrumentation/sinatra'
-#extend NewRelic::Agent::Instrumentation::Sinatra
 
 RACK_ENV = ENV['RACK_ENV'] || 'staging'
 DOMAIN = ENV["RACK_ENV"] == "production" ? 'scrumninja.com' : 'snstaging.heroku.com'
-
+require 'logger'
 $logger = Logger.new("log/#{RACK_ENV}.log")
 
 Dir["./lib/*.rb"].each {|file| require file }
 
+require 'newrelic_rpm'
 
 NotificationCache.init_heroku_cache
 
