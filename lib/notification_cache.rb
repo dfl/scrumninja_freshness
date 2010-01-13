@@ -14,7 +14,7 @@ class NotificationCache
   end
 
   def self.init_session req
-    self.session_id = req.cookies['_scrum_ninja_session'][1..32].hash.to_s(36)
+    self.session_id = req.cookies['_scrum_ninja_session'][0..31].hash.to_s(36)
   end
   
   def self.init_heroku_cache
@@ -45,13 +45,14 @@ class NotificationCache
     hsh ||= { :updates => [], :last_check => {} }
     $logger.info( "fetched from cache for Project #{project_id}: #{hsh.inspect}")
     if hsh[:last_check].blank? || hsh[:last_check][self.session_id].blank?
-      # $logger.info "session ID mismatch? #{@@session_id.inspect}"
+      $logger.info "true: #{@@session_id.inspect}"
       return true
     else
       hsh[:updates].each do |a|
         return true if ( a[0] > hsh[:last_check][self.session_id] ) && a[1] != self.session_id
       end
     end
+    $logger.info "false"
     return false
   end
 

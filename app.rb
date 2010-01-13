@@ -25,7 +25,7 @@ helpers do
 end
    
 get '/notify/:project_id' do
-  NotificationCache.session_id = request.cookies["_scrum_ninja_session"].hash.to_s(36)
+  NotificationCache.init_session  
   return output("callback required", 500) unless params[:callback]
   result = NotificationCache.refresh_my_view?( params[:project_id] )  #  rand(2) == 0 ? true : false
   output jsonp( result )
