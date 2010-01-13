@@ -3,6 +3,9 @@ require 'rubygems'
 require 'sinatra'
 require 'logger'
 
+#require 'new_relic/agent/instrumentation/sinatra'
+#extend NewRelic::Agent::Instrumentation::Sinatra
+
 RACK_ENV = ENV['RACK_ENV'] || 'staging'
 DOMAIN = ENV["RACK_ENV"] == "production" ? 'scrumninja.com' : 'snstaging.heroku.com'
 
