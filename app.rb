@@ -25,7 +25,7 @@ helpers do
 end
    
 get '/notify/:project_id' do
-  NotificationCache.init_session  
+  NotificationCache.init_session( request )
   return output("callback required", 500) unless params[:callback]
   result = NotificationCache.refresh_my_view?( params[:project_id] )  #  rand(2) == 0 ? true : false
   output jsonp( result )

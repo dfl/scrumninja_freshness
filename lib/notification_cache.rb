@@ -52,7 +52,6 @@ class NotificationCache
         return true if ( a[0] > hsh[:last_check][self.session_id] ) && a[1] != self.session_id
       end
     end
-    $logger.info "false"
     return false
   end
 
