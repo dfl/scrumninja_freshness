@@ -26,17 +26,7 @@ common:
     transaction_threshold: apdex_f
   capture_params: false
   log_level: info
-# development: 
-#   apdex_t: 0.5
-#   error_collector: *id001
-#   license_key: 
-#   monitor_mode: false
-#   ssl: false
-#   app_name: My Application
-#   developer_mode: true
-#   transaction_tracer: *id002
-#   log_level: info
-#   capture_params: false
+
 production: 
   apdex_t: 0.5
   error_collector: *id001
@@ -49,17 +39,7 @@ production:
   transaction_tracer: *id002
   log_level: info
   capture_params: false
-# test: 
-#   apdex_t: 0.5
-#   error_collector: *id001
-#   license_key: <%= license_key %>
-#   monitor_mode: false
-#   ssl: false
-#   app_name: My Application
-#   developer_mode: false
-#   transaction_tracer: *id002
-#   log_level: info
-#   capture_params: false
+
 staging: 
   apdex_t: 0.5
   error_collector: *id001
@@ -67,7 +47,7 @@ staging:
   monitor_mode: true
   ssl: false
   app_name: ScrumNinja Freshness (staging)
-  developer_mode: false
+  developer_mode: true
   transaction_tracer: *id002
   log_level: info
-  capture_params: false
+  capture_params: true
