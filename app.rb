@@ -7,15 +7,9 @@ DOMAIN = ENV["RACK_ENV"] == "production" ? 'scrumninja.com' : 'snstaging.heroku.
 require 'logger'
 $logger = Logger.new("log/#{RACK_ENV}.log")
 
-require 'newrelic_rpm'
-
-# configure :production do
-#   # $:.unshift *Dir["#{ENV['APP_ROOT']}/vendor/plugins/*/lib"]
-#   # $:.unshift *Dir["#{ENV['APP_ROOT']}/vendor/plugins/newrelic_rpm/lib"]
-#   # $logger.info "PATH = #{$:.inspect}"
-#   # $logger.info "APP_ROOT = #{ENV['APP_ROOT']}"
-#   require "#{ENV['APP_ROOT']}/vendor/plugins/newrelic_rpm/lib/newrelic_rpm"  
-# end
+configure :production do
+  require 'newrelic_rpm'
+end
 
 Dir["#{ENV['APP_ROOT']}/lib/*.rb"].each {|file| require file }
 
