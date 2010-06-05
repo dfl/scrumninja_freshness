@@ -1,11 +1,11 @@
-require 'memcache'
+require 'memcached'
 require 'net/http'
 require 'uri'
 require 'active_support'
 
 class NotificationCache
   MEMCACHE_ACTION = 'memcache'
-  
+
   def self.session_id= val
     @@session_id = val
   end
@@ -23,7 +23,7 @@ class NotificationCache
     $logger.info( res.body )
     servers,namespace = res.body.split("@")
     servers = servers.split(",")
-    $CACHE = MemCache.new(servers, :namespace => namespace)
+    $CACHE = Memcached.new(servers, :namespace => namespace)
     $logger.info( "servers: #{servers.inspect}, namespace: #{namespace}" )
   end
 
