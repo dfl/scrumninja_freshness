@@ -5,7 +5,7 @@ require 'active_support'
 
 class NotificationCache
   MEMCACHE_ACTION = 'memcache'
-  
+
   def self.session_id= val
     @@session_id = val
   end
