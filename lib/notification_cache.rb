@@ -14,8 +14,7 @@ class NotificationCache
   end
 
   def self.init_session req
-    self.session_id = req
-    # self.session_id = req.cookies['_scrum_ninja_session'][0..20].hash.to_s(36)
+    self.session_id = req.cookies['_scrum_ninja_session'][0..20].hash.to_s(36)
   end
   
   def self.init_heroku_cache
