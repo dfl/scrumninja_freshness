@@ -27,7 +27,7 @@ helpers do
 end
    
 get '/notify/:project_id' do
-  $logger.info "initializing from metal #{req.env['rack.session'][:session_id]}"
+  $logger.info "initializing from metal #{request.env['rack.session'][:session_id]}"
   NotificationCache.init_session( request )
   return output("callback required", 500) unless params[:callback]
   result = NotificationCache.refresh_my_view?( params[:project_id] )  #  rand(2) == 0 ? true : false
