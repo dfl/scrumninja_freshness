@@ -25,7 +25,7 @@ class NotificationCache
     res = Net::HTTP.start( DOMAIN ) {|http| http.get("/#{MEMCACHE_ACTION}") }
     key = EzCrypto::Key.decode "53rC4Mge+nQzRZdhBtbllQ=="
     decoded = key.decrypt( Base64.decode64( res.body ) )
-    $logger.info( decoded )
+    # $logger.info( decoded )
     servers, username, password = decoded.split("@")
     servers = servers.split(",")
     $CACHE = Memcached.new(servers, :credentials => [username, password] )
