@@ -1,2 +1,3 @@
 newrelic_rpm --version '>= 2.10.3'
 memcached-northscale --version ">= 0.19.3"
+ezcrypto

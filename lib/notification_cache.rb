@@ -1,3 +1,5 @@
+require 'ezcrypto'
+require 'base64'
 require 'memcached'
 require 'net/http'
 require 'uri'
@@ -21,11 +23,12 @@ class NotificationCache
   def self.init_heroku_cache
     $logger.info "initializing memcached..."
     res = Net::HTTP.start( DOMAIN ) {|http| http.get("/#{MEMCACHE_ACTION}") }
-    $logger.info( res.body )
-    servers,namespace = res.body.split("@")
+    key = EzCrypto::Key.decode "53rC4Mge+nQzRZdhBtbllQ=="
+    decoded = key.decrypt( Base64.decode64( res.body ) )
+    $logger.info( decoded )
+    servers, username, password = decoded.split("@")
     servers = servers.split(",")
-    $CACHE = Memcached.new(servers, :namespace => namespace)
-    $logger.info( "servers: #{servers.inspect}, namespace: #{namespace}" )
+    $CACHE = Memcached.new(servers, :credentials => [username, password] )
   end
 
   @@retry_counter = 0
