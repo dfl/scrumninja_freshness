@@ -53,7 +53,7 @@ class NotificationCache
       return true
     else
       hsh[:updates].each do |a|
-        return true if ( a[0] > hsh[:last_check][self.session_id] ) && a[1] != self.session_id
+        return true if ( a[:updated_at] > hsh[:last_check][self.session_id] ) && a[:session_id] != self.session_id
       end
     end
     return false
