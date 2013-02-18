@@ -3,7 +3,13 @@ require 'base64'
 require 'dalli'
 require 'net/http'
 require 'uri'
-require 'active_support'
+# require 'active_support'
+
+class Object
+  def blank?
+    respond_to?(:empty?) ? empty? : !self
+  end
+end
 
 class NotificationCache
   MEMCACHE_ACTION = 'memcache'
