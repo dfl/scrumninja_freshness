@@ -8,46 +8,22 @@
 # NEW_RELIC_ID          => 11723
 # NEW_RELIC_LICENSE_KEY => d18ddb561bd5daf01dc31ae2e939178e9b36f646
 # RACK_ENV              => production
---- 
-common: 
-  error_collector: &id001 
-    capture_source: true
-    enabled: true
-  apdex_t: 0.5
-  ssl: false
-  monitor_mode: true
-  license_key: 
-  developer_mode: false
-  app_name: ScrumNinja Freshness
-  transaction_tracer: &id002 
-    record_sql: obfuscated
-    enabled: true
-    stack_trace_threshold: 0.5
-    transaction_threshold: apdex_f
-  capture_params: false
-  log_level: info
-
-production: 
-  apdex_t: 0.5
-  error_collector: *id001
-  license_key: 
-  monitor_mode: true
-  ssl: false
-  app_name: ScrumNinja Freshness
-  license_key: d18ddb561bd5daf01dc31ae2e939178e9b36f646
-  developer_mode: false
-  transaction_tracer: *id002
-  log_level: info
-  capture_params: false
-
-staging: 
-  apdex_t: 0.5
-  error_collector: *id001
-  license_key: e98b7d2c43cbfd9a91cd345acba3f7363baaa0cb
-  monitor_mode: true
-  ssl: false
-  app_name: ScrumNinja Freshness (staging)
-  developer_mode: true
-  transaction_tracer: *id002
-  log_level: info
-  capture_params: true
+ ---
+ <%= ENV["RACK_ENV"] %>:
+   error_collector:
+     capture_source: true
+     enabled: true
+     ignore_errors: ActionController::RoutingError
+   apdex_t: 0.5
+   ssl: false
+   monitor_mode: true
+   license_key: <%= ENV["NEW_RELIC_LICENSE_KEY"] %>
+   developer_mode: false
+   app_name: <%= ENV["NEW_RELIC_APP_NAME"] %>
+   transaction_tracer:
+     record_sql: obfuscated
+     enabled: true
+     stack_trace_threshold: 0.5
+     transaction_threshold: apdex_f
+   capture_params: false
+   log_level: info
