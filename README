@@ -1,1 +1,5 @@
 This app is polled by ScrumNinja notification/refresh javascript, and tells us whether projects are fresh or stale
+
+
+git push staging staging:master
+git push production master

@@ -1,8 +1,19 @@
 ENV['APP_ROOT'] ||= File.dirname(__FILE__)
 RACK_ENV = ENV['RACK_ENV'] || 'staging'
 DOMAIN = ENV["RACK_ENV"] == "production" ? 'scrumninja.com' : 'snstaging.heroku.com'
-require 'logger'
-$logger = Logger.new("log/#{RACK_ENV}.log")
+# require 'logger'
+# $logger = Logger.new("log/#{RACK_ENV}.log")
+
+class MyLogger
+  def debug arg
+    puts "[DEBUG] #{arg}"
+  end
+  def info arg
+    puts arg
+  end
+end
+  
+$logger = MyLogger.new
 
 configure :production do
   require 'newrelic_rpm'
