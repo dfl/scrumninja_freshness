@@ -28,7 +28,7 @@ class NotificationCache
     # $logger.info( decoded )
     servers, username, password = decoded.split("@")
     servers = servers.split(",")
-    $CACHE = Memcached.new(servers, :credentials => [username, password] )
+    @@CACHE = Memcached.new(servers, :credentials => [username, password] )
   end
 
   @@retry_counter = 0
@@ -37,7 +37,7 @@ class NotificationCache
   def self.refresh_my_view?(project_id) 
     hsh = nil
     begin
-      hsh = $CACHE.get("notification_cache/#{project_id}")
+      hsh = @@CACHE.get("notification_cache/#{project_id}")
     rescue => e
       $logger.info e.to_s
       init_heroku_cache

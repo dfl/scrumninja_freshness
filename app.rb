@@ -11,6 +11,9 @@ configure :production do
   require 'newrelic_rpm'
 end
 
+require 'dalli'
+set :cache, Dalli::Client.new
+
 Dir["#{ENV['APP_ROOT']}/lib/*.rb"].each {|file| require file }
 
 
