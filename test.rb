@@ -1,4 +1,4 @@
-require 'app'
+require './app'
 require 'spec'
 require 'rack/test'
 

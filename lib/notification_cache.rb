@@ -1,6 +1,6 @@
 require 'ezcrypto'
 require 'base64'
-require 'memcached'
+require 'dalli'
 require 'net/http'
 require 'uri'
 require 'active_support'
@@ -28,7 +28,10 @@ class NotificationCache
     # $logger.info( decoded )
     servers, username, password = decoded.split("@")
     servers = servers.split(",")
-    @@CACHE = Memcached.new(servers, :credentials => [username, password] )
+    @@CACHE = Dalli::Client.new( servers,
+        :username => username,
+        :password => password )
+        # :expires_in => 300)
   end
 
   @@retry_counter = 0

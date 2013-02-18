@@ -1,6 +1,3 @@
-require 'rubygems'
-require 'sinatra'
-
 ENV['APP_ROOT'] ||= File.dirname(__FILE__)
 RACK_ENV = ENV['RACK_ENV'] || 'staging'
 DOMAIN = ENV["RACK_ENV"] == "production" ? 'scrumninja.com' : 'snstaging.heroku.com'
@@ -11,11 +8,7 @@ configure :production do
   require 'newrelic_rpm'
 end
 
-require 'dalli'
-set :cache, Dalli::Client.new
-
 Dir["#{ENV['APP_ROOT']}/lib/*.rb"].each {|file| require file }
-
 
 NotificationCache.init_heroku_cache
 
