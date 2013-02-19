@@ -6,3 +6,6 @@ gem 'dalli'
 gem 'ezcrypto'
 # gem 'activesupport'
 gem 'newrelic_rpm'
+
+gem 'rspec'
+gem 'rack-test'
