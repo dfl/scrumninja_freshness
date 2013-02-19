@@ -2,4 +2,4 @@ This app is polled by ScrumNinja notification/refresh javascript, and tells us w
 
 
 git push staging staging:master
-git push production master
+git push production staging:master

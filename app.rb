@@ -1,6 +1,8 @@
 ENV['APP_ROOT'] ||= File.dirname(__FILE__)
 RACK_ENV = ENV['RACK_ENV'] || 'staging'
-DOMAIN   = ENV["RACK_ENV"] == "production" ? 'scrumninja.com' : 'staging.scrumninja.com'
+DOMAIN   = ENV["RACK_ENV"] == "production" ? 'scrumninja.com' : 'snstaging.heroku.com'
+# require 'logger'
+# $logger = Logger.new("log/#{RACK_ENV}.log")
 
 class MyLogger
   def debug arg

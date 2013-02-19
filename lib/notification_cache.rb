@@ -62,7 +62,8 @@ class NotificationCache
       return true
     else
       hsh[:updates].each do |a|
-        return true if ( a[:updated_at] > hsh[:last_check][self.session_id] ) && a[:session_id] != self.session_id
+        h = {:updated_at => a[0], :session_id => a[1], :user_id => a[2] }  # conversion shim from old array to new hash format
+        return true if ( h[:updated_at] > hsh[:last_check][self.session_id] ) && h[:session_id] != self.session_id
       end
     end
     return false
