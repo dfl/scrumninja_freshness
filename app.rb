@@ -41,5 +41,5 @@ get '/notify/:project_id' do
 end
 
 get '/' do
-  "weloveyou."
+  "weloveyou. [#{ENV['RACK_ENV']}]"
 end
