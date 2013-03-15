@@ -46,7 +46,7 @@ class NotificationCache
   def self.refresh_my_view?(project_id) 
     hsh = nil
     begin
-      hsh = @@CACHE.get("notification_cache/#{project_id}")
+      hsh = Marshal.load( @@CACHE.get("notification_cache/#{project_id}") )
     rescue => e
       $logger.info e.to_s
       init_heroku_cache
