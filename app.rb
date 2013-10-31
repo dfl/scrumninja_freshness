@@ -6,7 +6,7 @@ DOMAIN   = ENV["RACK_ENV"] == "production" ? 'scrumninja.com' : 'snstaging.herok
 
 class MyLogger
   def debug arg
-    puts "[DEBUG] #{arg}"
+    puts "[DEBUG] #{arg}" if RACK_ENV != "production"
   end
   def info arg
     puts arg

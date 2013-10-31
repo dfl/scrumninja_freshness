@@ -31,7 +31,7 @@ class NotificationCache
     res = Net::HTTP.start( DOMAIN ) {|http| http.get("/#{MEMCACHE_ACTION}") }
     key = EzCrypto::Key.decode "53rC4Mge+nQzRZdhBtbllQ=="
     decoded = key.decrypt( Base64.decode64( res.body ) )
-    # $logger.info( decoded )
+    $logger.debug( decoded )
     servers, username, password = decoded.split("@")
     servers = servers.split(",")
     @@CACHE = Dalli::Client.new( servers,
@@ -40,25 +40,25 @@ class NotificationCache
         # :expires_in => 300)
   end
 
-  @@retry_counter = 0
   MAX_RETRIES = 5  
   
   def self.refresh_my_view?(project_id) 
+    @@retry_counter = 0
     hsh = nil
     begin
-      hsh = Marshal.load( @@CACHE.get("notification_cache/#{project_id}") )
+      hsh = @@CACHE.get("notification_cache/#{project_id}")
     rescue => e
-      $logger.info e.to_s
+      $logger.info "Exception: #{e}"
       init_heroku_cache
       @@retry_counter += 1
       raise "could not connect to server!" if @@retry_counter > MAX_RETRIES
-      $logger.info "retrying."
+      $logger.info "retrying..."
       retry
     end
     hsh ||= { :updates => [], :last_check => {} }
-    $logger.info( "fetched from cache for Project #{project_id}: #{hsh.inspect}")
+    $logger.debug( "fetched from cache for Project #{project_id}: #{hsh.inspect}")
     if hsh[:last_check].blank? || hsh[:last_check][self.session_id].blank?
-      $logger.info "true: #{@@session_id.inspect}"
+      $logger.debug "true: #{@@session_id.inspect}"
       return true
     else
       hsh[:updates].each do |a|
